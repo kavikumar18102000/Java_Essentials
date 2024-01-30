@@ -1,0 +1,68 @@
+Generics -> used for type safety.
+The whole generic type is done only during the compile time, not on runtime.
+Even the byte code will not have the generic type in it, it will be a plain List or other Collections.
+After the process done by compiler, if it checks the type and everything is good, the compiler erases all the generic type and it is known as "Type Erasure".
+
+E -> type of elements the collection should contain.
+
+What is that parameter used in front of a list like "List<>"?
+--> The parameter takes the type of objects the collection should contain, but this parameter is not like the function parameter.
+    And also the Collection type is like "List<String> names", is not associated with the instance, it is associated with the
+        expression or the reference variable. That is why we can add the elements using the variable name. The instance will plain old List, without any generic type.
+        The compiler and the variable will take care of the generic type, as the type is a property of the variable not the instance.
+
+NOTE: The best practice is to always use generic type, when working with the collection.
+
+Inheritance in Generics:
+Inheritance in generic will not work as same as in the classes, it is quite different.
+We use wildcard '?' to perform the inheritance.
+These wildcards can be used when you want to relax the restrictions on a variable. For example, say you want to write a method that works on List < Integer >,
+ List < Double >, and List < Number >, you can do this using an upper bounded wildcard.
+
+'?', denotes that the type is unknown, and it can be anything.
+''?' is the wildcard, where the type is unknown, but it knows something is passed to the list type.
+    //when the type is not specified, we can only read but can't write into the list.
+    //if the compiler does not know what the type of '?', it doesn't allow to write into the list.
+    //the return type is of 'Object' only, unless the wildcard type is not specified.
+
+NOTE: Big disadvantage of wildcard is, we can only read and write can't write into wildcard type.
+    (But solution to write into wildcard is lower bound generic type).
+
+UpperBound in wildcard:
+UpperBound in generic creates a validation for '?', that the wildcard should be of type which we provide. Like the wild card type extend another class or interface
+Eg: public static void printNumbers(List<? extends Number> list)
+In the above example, the wild card will all the object to the list which is a subclass of Number class, like Integer, Double, but other than that like String
+or a custom class, will not be permitted to the wildcard type.
+
+Multiple Upper Bound in Generics:
+Eg: public class Cage<E extends Animal & Eats & Runs>{}
+ The generic type 'E', should be of type 'Animal', and it implements interface 'Eats' and 'Runs' directly or indirectly.
+ Multiple upperbound are achieved through '&' symbol.
+
+ NOTE: In multiple upped bound, the classes should come first and then the interface should be specified.
+        like, in the above ex; Animal is the class, and the interface 'Eats' and 'Runs' should be after the Animal class.
+       If there is no class extending, but only interfaces, then no order is need.
+
+Unbounded Wildcard:
+This wildcard type is specified using the wildcard character (?), for example, List. This is called a list of unknown types.
+These are useful in the following cases –
+    When writing a method that can be employed using functionality provided in Object class.
+    When the code is using methods in the generic class that doesn’t depend on the type parameter
+
+Lower Bound in wildcard:
+It means that we can write into the wild card type list or collections.
+Eg: public static void addNumbers(List<? super Number> numbers)
+Here the <? super Number>, what does that mean?
+    * the wildcard type should be of type Number, or the super class of Number.
+    * wild card should be not the type which extends Number like the subclass of Number, like Integer, Doubles etc...
+    * In this eg; the super class of Number will be Object class.
+    * By using this, we can add write into the wild card list or collections.
+    * Here, Number class can hold the object of Integer, Double etc., so we can write into the list.
+
+Generic using Static methods:
+Eg: public static <E extends Animal> boolean compareAnimals(E animal1, E animal2)
+
+    In static methods, the method cannot access the generic type of the class, as static are not associated with the instance.
+    We use the generic type in-between the static and the return type of the static function
+    The generic type of the animals in the parameters are not from the class generic type it is from the static generic type.
+    The wildcards are to be same or tend to be same as what the class has.
